@@ -3,10 +3,9 @@ import { useDisclosure } from '@mantine/hooks';
 import React from 'react';
 import { RouterProvider } from 'react-router-dom';
 import { router } from './router';
-import { useTranslation } from 'react-i18next';
+import LogoFull from './assets/logo-full.svg';
 
 const App: React.FC = () => {
-  const { t } = useTranslation();
   const [opened, { toggle }] = useDisclosure();
 
   return (
@@ -19,9 +18,15 @@ const App: React.FC = () => {
       }}
       padding="md"
     >
-      <AppShell.Header>
-        <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-        <div>{t('logo')}</div>
+      <AppShell.Header className="flex items-center px-3">
+        <Burger
+          opened={opened}
+          onClick={toggle}
+          hiddenFrom="sm"
+          size="sm"
+          className="mr-2"
+        />
+        <img src={LogoFull} className="h-[36px]" />
       </AppShell.Header>
 
       <AppShell.Navbar p="md">Navbar</AppShell.Navbar>
