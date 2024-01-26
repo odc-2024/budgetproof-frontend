@@ -1,6 +1,8 @@
 import { AppShell, Burger } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import React from 'react';
+import { RouterProvider } from 'react-router-dom';
+import { router } from './router';
 
 const App: React.FC = () => {
   const [opened, { toggle }] = useDisclosure();
@@ -23,7 +25,7 @@ const App: React.FC = () => {
       <AppShell.Navbar p="md">Navbar</AppShell.Navbar>
 
       <AppShell.Main>
-        <div className="bg-red-50 text-2xl">hello</div>
+        <RouterProvider router={router} />
       </AppShell.Main>
     </AppShell>
   );
