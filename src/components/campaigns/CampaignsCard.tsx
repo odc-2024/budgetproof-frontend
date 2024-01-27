@@ -6,7 +6,7 @@ const CampaignsCard: React.FC<{ children?: React.ReactNode }> = ({ children }) =
     <Card shadow="sm" padding="lg" radius="lg" withBorder>
       <Group justify="space-between" mt="md" mb="xs">
         <Text fw={500}>Norway Fjord Adventures</Text>
-        <Badge color="#5D773F">19,999,999 soums</Badge>
+        <Badge>19,999,999 soums</Badge>
       </Group>
 
       <Text size="sm" c="dimmed">

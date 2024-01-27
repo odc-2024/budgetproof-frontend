@@ -39,7 +39,9 @@ const CampaignsView: React.FC = () => {
                 </Button>
               ))}
             </Button.Group>
-            <Button variant="outline">Add new campaign</Button>
+            <Link to="/campaigns/add">
+              <Button variant="outline">Add new campaign</Button>
+            </Link>
           </Group>
           <Grid>
             {campaigns.map((value, index) => (
