@@ -5,8 +5,9 @@ import { NavLink } from 'react-router-dom';
 
 const collections = [
   { emoji: '🏠', label: 'Home', to: '/' },
-  { emoji: '👥', label: 'Campaigns', to: '/campaigns' },
+  { emoji: '📢', label: 'Campaigns', to: '/campaigns' },
   { emoji: '👥', label: 'Users', to: '/users' },
+  { emoji: '📖', label: 'How it works', to: '/about' },
 ];
 
 const Navbar: React.FC = () => {

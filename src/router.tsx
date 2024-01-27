@@ -6,6 +6,7 @@ import UsersView from '@/views/UsersView';
 import CampaignsView from '@/views/CampaignsView';
 import CampaignsCardView from '@/views/CampaignsCardView.tsx';
 import AddCampaignView from '@/views/AddCampaignView.tsx';
+import AboutView from '@/views/AboutView.tsx';
 
 export const shutUpEslint: React.FC = () => <></>;
 
@@ -29,5 +30,9 @@ export const router = createBrowserRouter([
   {
     path: '/campaigns/add',
     element: <AddCampaignView />,
+  },
+  {
+    path: '/about',
+    element: <AboutView />,
   },
 ]);
