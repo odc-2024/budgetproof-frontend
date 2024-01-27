@@ -24,7 +24,7 @@ export const router = createBrowserRouter([
     element: <CampaignsView />,
   },
   {
-    path: '/campaigns/view',
+    path: '/campaigns/:id',
     element: <CampaignsCardView />,
   },
   {

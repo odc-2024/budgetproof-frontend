@@ -29,6 +29,7 @@
     "@tiptap/starter-kit": "^2.1.16",
     "dayjs": "^1.11.10",
     "embla-carousel-react": "^7.1.0",
+    "ethers": "^6.10.0",
     "localforage": "^1.10.0",
     "mantine-react-table": "^2.0.0-alpha.11",
     "match-sorter": "^6.3.3",
