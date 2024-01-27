@@ -33,11 +33,13 @@
   margin-bottom: var(--mantine-spacing-xs);
 }
 
-.collectionLink:hover, .collectionLinkActive {
-  background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+.collectionLink:hover {
+  background-color: light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-6));
   color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
 }
 
 .collectionLinkActive {
+  background-color: light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-6));
+  color: light-dark(var(--mantine-color-gray-7), var(--mantine-color-dark-0));
   font-weight: bold;
 }

@@ -28,7 +28,7 @@ const DefaultLayout: React.FC<{
         <img src={LogoFull} className="h-[36px]" />
       </AppShell.Header>
 
-      <AppShell.Navbar p="md">
+      <AppShell.Navbar p="md" className="!bg-neutral-50">
         <Navbar />
       </AppShell.Navbar>
 

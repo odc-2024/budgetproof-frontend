@@ -1,22 +1,60 @@
 import React from 'react';
 import DefaultLayout from '@/components/Layout/DefaultLayout';
 import {
+  MRT_Cell,
   MRT_ColumnDef,
   MantineReactTable,
   useMantineReactTable,
 } from 'mantine-react-table';
-import { Box, Button } from '@mantine/core';
+import { Badge, Box, Button, Menu, rem } from '@mantine/core';
+import { Role } from '@/types';
+import { IconAdjustments } from '@tabler/icons-react';
 
-type Data = { id: number; firstName: string; lastName: string };
-const columns: MRT_ColumnDef<Data>[] = [{ accessorKey: 'id', header: 'ID' }];
-const data: Data[] = [{ id: 1, firstName: 'Shakhzod', lastName: 'Kudratov' }];
+type Data = {
+  id: number;
+  firstName: string;
+  lastName: string;
+  role: Role;
+};
+
+const columns: MRT_ColumnDef<Data>[] = [
+  { accessorKey: 'id', header: 'ID' },
+  { accessorKey: 'firstName', header: 'First Name' },
+  { accessorKey: 'lastName', header: 'Last Name' },
+  {
+    accessorKey: 'role',
+    header: 'Role',
+    Cell: ({ cell }: { cell: MRT_Cell<Data> }) => {
+      switch (cell.getValue<Role>()) {
+        case Role.Admin:
+          return <Badge color="red">Admin</Badge>;
+        case Role.Volunteer:
+          return <Badge color="yellow">Volunteer</Badge>;
+        case Role.Participant:
+          return <Badge color="green">Participant</Badge>;
+      }
+      return <Badge color="grey">Unknown</Badge>;
+    },
+  },
+];
+
+const data: Data[] = [
+  { id: 1, firstName: 'Sardorjon', lastName: 'Qodirjonov', role: Role.Admin },
+  { id: 2, firstName: 'Shaxzod', lastName: 'Qudratov', role: Role.Participant },
+  { id: 3, firstName: 'Rasuljon', lastName: 'Qodiriy', role: Role.Volunteer },
+  { id: 4, firstName: 'Saidbek', lastName: 'Abdiganiyev', role: Role.Unknown },
+];
 
 const UsersView: React.FC = () => {
   const table = useMantineReactTable<Data>({
+    state: {
+      density: 'xs',
+    },
     columns,
     data,
     enableRowSelection: true,
-    columnFilterDisplayMode: 'popover',
+    enableDensityToggle: false,
+    columnFilterDisplayMode: 'subheader',
     paginationDisplayMode: 'pages',
     positionToolbarAlertBanner: 'bottom',
     renderTopToolbarCustomActions: ({ table }) => (
@@ -28,21 +66,36 @@ const UsersView: React.FC = () => {
           flexWrap: 'wrap',
         }}
       >
-        <Button
-          disabled={table.getPrePaginationRowModel().rows.length === 0}
-          variant="filled"
-        >
-          Export All Rows
-        </Button>
-        <Button disabled={table.getRowModel().rows.length === 0} variant="filled">
-          Export Page Rows
-        </Button>
-        <Button
-          disabled={!table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()}
-          variant="filled"
-        >
-          Export Selected Rows
-        </Button>
+        <Button.Group>
+          <Button
+            disabled={!table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()}
+            variant="outline"
+            size="xs"
+          >
+            Add Participant
+          </Button>
+
+          <Menu shadow="md" width={200}>
+            <Menu.Target>
+              <Button
+                variant="outline"
+                aria-label="Settings"
+                size="xs"
+                pr={0}
+                px={rem(6)}
+                disabled={!table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected()}
+              >
+                <IconAdjustments style={{ width: '70%', height: '70%' }} stroke={1.5} />
+              </Button>
+            </Menu.Target>
+
+            <Menu.Dropdown>
+              <Menu.Item>Add Participant</Menu.Item>
+              <Menu.Item>Add Volunteer</Menu.Item>
+              <Menu.Item>Add Admin</Menu.Item>
+            </Menu.Dropdown>
+          </Menu>
+        </Button.Group>
       </Box>
     ),
   });
