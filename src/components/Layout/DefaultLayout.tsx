@@ -12,7 +12,7 @@ const DefaultLayout: React.FC<{
       header={{ height: 60 }}
       navbar={{
         width: 300,
-        breakpoint: 'sm',
+        breakpoint: 'lg',
         collapsed: { mobile: !opened },
       }}
       padding="md"
@@ -21,7 +21,7 @@ const DefaultLayout: React.FC<{
         <Burger
           opened={opened}
           onClick={toggle}
-          hiddenFrom="sm"
+          hiddenFrom="lg"
           size="sm"
           className="mr-2"
         />

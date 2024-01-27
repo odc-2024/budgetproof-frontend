@@ -3,7 +3,10 @@ import { rem } from '@mantine/core';
 import classes from './Navbar.module.css';
 import { NavLink } from 'react-router-dom';
 
-const collections = [{ emoji: '🏠', label: 'Home', to: '/' }];
+const collections = [
+  { emoji: '🏠', label: 'Home', to: '/' },
+  { emoji: '👥', label: 'Users', to: '/users' },
+];
 
 const Navbar: React.FC = () => {
   const collectionLinks = collections.map((collection, index) => (
