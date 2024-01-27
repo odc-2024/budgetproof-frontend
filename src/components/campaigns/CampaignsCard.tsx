@@ -1,7 +1,7 @@
 import React from 'react';
 import { Badge, Card, Group, Text } from '@mantine/core';
 
-const CampaignsCard: React.FC = () => {
+const CampaignsCard: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   return (
     <Card shadow="sm" padding="lg" radius="lg" withBorder>
       <Group justify="space-between" mt="md" mb="xs">
@@ -13,6 +13,7 @@ const CampaignsCard: React.FC = () => {
         With Fjord Tours you can explore more of the magical fjord landscapes with tours
         and activities on and around the fjords of Norway
       </Text>
+      {children}
     </Card>
   );
 };

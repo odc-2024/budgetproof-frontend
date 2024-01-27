@@ -1,14 +1,14 @@
 import React from 'react';
 import { Button, Grid, Group, Stack, Title } from '@mantine/core';
-import CampaignsAddButton from '@/components/campaigns/CampaignsAddButton.tsx';
 import CampaignsCard from '@/components/campaigns/CampaignsCard.tsx';
 import DefaultLayout from '@/components/Layout/DefaultLayout.tsx';
 import { CampaignStatus } from '@/types';
+import { Link } from 'react-router-dom';
 
 const campaigns = [
-  { item: <CampaignsCard /> },
-  { item: <CampaignsCard /> },
-  { item: <CampaignsCard /> },
+  { item: <CampaignsCard />, link: '/campaigns/view' },
+  { item: <CampaignsCard />, link: '/campaigns/view' },
+  { item: <CampaignsCard />, link: '/campaigns/view' },
 ];
 
 const CampaignsView: React.FC = () => {
@@ -44,7 +44,7 @@ const CampaignsView: React.FC = () => {
           <Grid>
             {campaigns.map((value, index) => (
               <Grid.Col key={index} span={{ base: 12, md: 6, lg: 4 }}>
-                {value.item}
+                <Link to={value.link}>{value.item}</Link>
               </Grid.Col>
             ))}
           </Grid>

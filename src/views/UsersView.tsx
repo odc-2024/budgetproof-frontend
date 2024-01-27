@@ -1,5 +1,4 @@
 import React from 'react';
-import DefaultLayout from '@/components/Layout/DefaultLayout';
 import {
   MRT_Cell,
   MRT_ColumnDef,
@@ -9,6 +8,7 @@ import {
 import { Badge, Box, Button, Menu, rem } from '@mantine/core';
 import { Role } from '@/types';
 import { IconAdjustments } from '@tabler/icons-react';
+import DefaultLayout from '@/components/Layout/DefaultLayout.tsx';
 
 type Data = {
   id: number;
@@ -45,7 +45,7 @@ const data: Data[] = [
   { id: 4, firstName: 'Saidbek', lastName: 'Abdiganiyev', role: Role.Unknown },
 ];
 
-const UsersView: React.FC = () => {
+const UsersView: React.FC<{ withLayout?: boolean }> = ({ withLayout }) => {
   const table = useMantineReactTable<Data>({
     state: {
       density: 'xs',
@@ -99,6 +99,8 @@ const UsersView: React.FC = () => {
       </Box>
     ),
   });
+
+  if (!withLayout) return <MantineReactTable table={table} />;
 
   return (
     <DefaultLayout>
