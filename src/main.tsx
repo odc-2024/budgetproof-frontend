@@ -7,7 +7,10 @@ import './index.css';
 import '@mantine/core/styles.css';
 import 'mantine-react-table/styles.css';
 
-const theme = createTheme({});
+const theme = createTheme({
+  primaryShade: 9,
+  primaryColor: 'green',
+});
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
