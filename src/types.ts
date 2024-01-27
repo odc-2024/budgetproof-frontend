@@ -4,3 +4,9 @@ export enum Role {
   Participant = 'participant',
   Unknown = 'unknown',
 }
+
+export enum CampaignStatus {
+  Current = 'current',
+  Upcoming = 'upcoming',
+  Past = 'past',
+}
