@@ -6,7 +6,7 @@ const CampaignsCard: React.FC<{ campaign: Campaign }> = ({ campaign }) => {
   const [campaignProgressPercentage] = useState(((campaign.amount - campaign.remainingAmount) / 100n) * 100n); // TODO: fix the calculation
 
   return (
-    <Card shadow="sm" padding="lg" radius="lg" withBorder>
+    <Card shadow="sm" padding="lg" radius="sm" withBorder>
       <Group justify="space-between" mb="xs">
         <Text fw={600}>{ campaign.name }</Text>
         <Code>{campaign.contractAddress.substring(0, 9)}..</Code>

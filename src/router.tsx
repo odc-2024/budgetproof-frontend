@@ -1,5 +1,5 @@
 import React from 'react';
-import { createBrowserRouter } from 'react-router-dom';
+import { Navigate, createBrowserRouter } from 'react-router-dom';
 
 import HomeView from '@/views/HomeView';
 import UsersView from '@/views/UsersView';
@@ -35,4 +35,8 @@ export const router = createBrowserRouter([
     path: '/about',
     element: <AboutView />,
   },
+  {
+    path: '/enter',
+    element: <div></div>
+  }
 ]);
