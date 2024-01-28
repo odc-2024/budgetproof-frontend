@@ -4,8 +4,7 @@ import classes from './Navbar.module.css';
 import { NavLink } from 'react-router-dom';
 
 const collections = [
-  { emoji: '🏠', label: 'Home', to: '/' },
-  { emoji: '📢', label: 'Campaigns', to: '/campaigns' },
+  { emoji: '📢', label: 'Campaigns', to: '/' },
   { emoji: '👥', label: 'Users', to: '/users' },
   { emoji: '📖', label: 'How it works', to: '/about' },
 ];

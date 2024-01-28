@@ -4,10 +4,12 @@ const CONTRACT_ABI = [
   'function getBudgets() public view returns((uint256, string, uint256, string, uint256, address)[])',
   'function createBudget(string memory name_, uint256 amount_, string memory unit_) public returns (uint256)',
   'function getBudget(uint256 budgetId_) public view returns((uint256, string, uint256, string, uint256, address))',
-  'function getAllocations(uint256 budgetId_) public view returns((uint256, string, address, uint256, string, address)[])',
+  'function getAllocations(uint256 budgetId_) public view returns((uint256, uint256, string, address, uint256, string, address)[])',
+  'function confirmAllocation(uint256 budgetId_, uint256 allocationId_) public',
 ];
 
 export interface BudgetAllocation {
+  id: bigint;
   state: bigint;
   receiverUsername: string;
   receiverAddress: string;
@@ -32,7 +34,7 @@ class Contract {
   constructor() {
     this.browserProvider = new ethers.BrowserProvider((window as any).ethereum);
     this.contract = new ethers.Contract(
-      '0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9',
+      '0xf3811a9C616297e4F6F7B174aAD8f4481E2943af',
       CONTRACT_ABI,
       this.browserProvider,
     );
@@ -52,15 +54,16 @@ class Contract {
   }
 
   public deserializeAllocation(
-    allocation: [bigint, string, string, bigint, string, string],
+    allocation: [bigint, bigint, string, string, bigint, string, string],
   ): BudgetAllocation {
     return {
-      state: allocation[0],
-      receiverUsername: allocation[1],
-      receiverAddress: allocation[2],
-      amount: allocation[3],
-      volunteerUsername: allocation[4],
-      volunteerAddress: allocation[5],
+      id: allocation[0],
+      state: allocation[1],
+      receiverUsername: allocation[2],
+      receiverAddress: allocation[3],
+      amount: allocation[4],
+      volunteerUsername: allocation[5],
+      volunteerAddress: allocation[6],
     };
   }
 
@@ -86,6 +89,16 @@ class Contract {
     const signer = await this.browserProvider.getSigner();
     return await (
       await this.contract.connect(signer).createBudget(name, amount, unit)
+    ).wait(); // TODO: fix type error
+  }
+
+  public async confirmAllocation(
+    campaignId: bigint,
+    allocationId: bigint,
+  ): Promise<ContractTransactionReceipt> {
+    const signer = await this.browserProvider.getSigner();
+    return await (
+      await this.contract.connect(signer).confirmAllocation(campaignId, allocationId)
     ).wait(); // TODO: fix type error
   }
 }

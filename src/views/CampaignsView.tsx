@@ -6,6 +6,7 @@ import DefaultLayout from '@/components/Layout/DefaultLayout.tsx';
 import { Link } from 'react-router-dom';
 import { Campaign, contract } from '@/contract';
 import { useTranslation } from 'react-i18next';
+import { CampaignStatus } from '@/types';
 
 /*
 const campaigns = [
@@ -16,16 +17,7 @@ const campaigns = [
 */
 
 const CampaignsView: React.FC = () => {
-  const { t } = useTranslation();
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
-
-  const [status, setStatus] = React.useState<CampaignStatus>(CampaignStatus.Current);
-
-  const statuses = {
-    [CampaignStatus.Current]: t('current'),
-    [CampaignStatus.Upcoming]: t('upcoming'),
-    [CampaignStatus.Past]: t('past'),
-  };
 
   contract.getCampaigns().then((campaigns) => {
     setCampaigns(campaigns);

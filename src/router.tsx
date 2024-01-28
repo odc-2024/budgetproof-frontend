@@ -12,15 +12,11 @@ export const shutUpEslint: React.FC = () => <></>;
 
 export const router = createBrowserRouter([
   {
-    path: '/',
-    element: <HomeView />,
-  },
-  {
     path: '/users',
     element: <UsersView withLayout />,
   },
   {
-    path: '/campaigns',
+    path: '/',
     element: <CampaignsView />,
   },
   {

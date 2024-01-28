@@ -10,62 +10,24 @@ import {
   MantineReactTable,
   useMantineReactTable,
 } from 'mantine-react-table';
-
-const columns: MRT_ColumnDef<BudgetAllocation>[] = [
-  {
-    header: '0. Receiver',
-    Cell: ({ cell }: { cell: MRT_Cell<BudgetAllocation> }) => {
-      const name = cell.row.original.receiverUsername;
-      const address = cell.row.original.receiverAddress;
-
-      return (
-        <div>
-          <Text>{name}</Text>
-          <Text size="xs">{address}</Text>
-        </div>
-      );
-    },
-  },
-  {
-    header: '1. Volunteer',
-    Cell: ({ cell }: { cell: MRT_Cell<BudgetAllocation> }) => {
-      const name = cell.row.original.volunteerUsername;
-      const address = cell.row.original.volunteerAddress;
-
-      return (
-        <div>
-          <Text>{name}</Text>
-          <Text size="xs">{address}</Text>
-        </div>
-      );
-    },
-  },
-  {
-    header: '2. Amount',
-    Cell: ({ cell }: { cell: MRT_Cell<BudgetAllocation> }) => {
-      const amount = cell.row.original.amount;
-      return <Badge color="grey">{amount.toString()}</Badge>;
-    },
-  },
-  {
-    header: '3. State',
-    Cell: ({ cell }: { cell: MRT_Cell<BudgetAllocation> }) => {
-      const state = cell.row.original.state;
-      if (state == BigInt(1)) {
-        return <Badge color="green">Confirmed</Badge>;
-      } else if (state == BigInt(0)) {
-        return <Badge color="red">Not confirmed</Badge>;
-      }
-
-      return <Badge color="grey">Unknown</Badge>;
-    },
-  },
-];
+import { ethers } from 'ethers';
 
 const CampaignsCardView: React.FC = () => {
   const [campaign, setCampaign] = useState<Campaign | null>(null);
   const [allocations, setAllocations] = useState<BudgetAllocation[]>([]);
   const params = useParams();
+
+  const [ethereumAddress, setEthereumAddress] = useState<string>();
+
+  const loadEthereumAddress = async () => {
+    const [accounts] = await Promise.all([
+      window.ethereum!.request({ method: 'eth_requestAccounts' }),
+    ]);
+
+    if (accounts) setEthereumAddress(accounts[0]);
+  };
+
+  if (window.ethereum) loadEthereumAddress();
 
   React.useEffect(() => {
     contract.getCampaign(params.id).then((campaign) => {
@@ -76,6 +38,76 @@ const CampaignsCardView: React.FC = () => {
       setAllocations(allocations);
     });
   }, []);
+
+  const columns: MRT_ColumnDef<BudgetAllocation>[] = [
+    {
+      header: '0. Receiver',
+      Cell: ({ cell }: { cell: MRT_Cell<BudgetAllocation> }) => {
+        const name = cell.row.original.receiverUsername;
+        const address = cell.row.original.receiverAddress;
+
+        return (
+          <div>
+            <Text>{name}</Text>
+            <Text size="xs">{address}</Text>
+          </div>
+        );
+      },
+    },
+    {
+      header: '1. Volunteer',
+      Cell: ({ cell }: { cell: MRT_Cell<BudgetAllocation> }) => {
+        const name = cell.row.original.volunteerUsername;
+        const address = cell.row.original.volunteerAddress;
+
+        return (
+          <div>
+            <Text>{name}</Text>
+            <Text size="xs">{address}</Text>
+          </div>
+        );
+      },
+    },
+    {
+      header: '2. Amount',
+      Cell: ({ cell }: { cell: MRT_Cell<BudgetAllocation> }) => {
+        const amount = cell.row.original.amount;
+        return <Badge color="grey">{amount.toString()}</Badge>;
+      },
+    },
+    {
+      header: '3. State',
+      Cell: ({ cell }: { cell: MRT_Cell<BudgetAllocation> }) => {
+        const state = cell.row.original.state;
+        if (state == BigInt(1)) {
+          return <Badge color="green">Confirmed</Badge>;
+        } else if (state == BigInt(0)) {
+          return <Badge color="red">Not confirmed</Badge>;
+        }
+
+        return <Badge color="grey">Unknown</Badge>;
+      },
+    },
+    {
+      header: '4. Actions',
+      Cell: ({ cell }: { cell: MRT_Cell<BudgetAllocation> }) => {
+        const address = cell.row.original.receiverAddress;
+        const budgetId = BigInt(params.id);
+        const allocationId = cell.row.original.id;
+        // if (address != ethereumAddress) return <></>;
+
+        return (
+          <Button
+            onClick={async () => {
+              await contract.confirmAllocation(budgetId, allocationId);
+            }}
+          >
+            Confirm {address} - {ethereumAddress}
+          </Button>
+        );
+      },
+    },
+  ];
 
   const table = useMantineReactTable<BudgetAllocation>({
     state: {
@@ -102,7 +134,7 @@ const CampaignsCardView: React.FC = () => {
                 {campaign?.amount.toLocaleString()} {campaign?.unit}
               </Title>
             </div>
-            <Link to="/campaigns">
+            <Link to="/">
               <Button px={40} variant="outline">
                 Back
               </Button>

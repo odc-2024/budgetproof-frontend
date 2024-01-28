@@ -31,7 +31,7 @@ const AddCampaignView: React.FC = () => {
         <Stack gap={20}>
           <Group justify="space-between">
             <Title order={1}>New Campaign</Title>
-            <Link to="/campaigns">
+            <Link to="/">
               <Button px={40} variant="outline">
                 Back
               </Button>
