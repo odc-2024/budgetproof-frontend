@@ -16,7 +16,7 @@ const CampaignsCardView: React.FC = () => {
   const [allocations, setAllocations] = useState<BudgetAllocation[]>([]);
   const params = useParams();
 
-  const [ethereumAddress, setEthereumAddress] = useState<string>();
+  const [, setEthereumAddress] = useState<string>();
 
   const loadEthereumAddress = async () => {
     const [accounts] = await Promise.all([
