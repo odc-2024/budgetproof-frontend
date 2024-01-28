@@ -54,7 +54,7 @@ const DefaultLayout: React.FC<{
               ></Avatar>
               <div className="flex flex-col">
                 <code className="text-sm font-semibold">
-                  0x{ethereumAddress?.substring(0, 12)}..
+                  {ethereumAddress?.substring(0, 12)}..
                 </code>
                 <code className="text-xs">
                   Chain id: {parseInt(ethereumChainId as string, 16)}

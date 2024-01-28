@@ -24,11 +24,6 @@ const CampaignsCard: React.FC<{ campaign: Campaign }> = ({ campaign }) => {
           size={40}
           thickness={4}
           roundCaps
-          label={
-            <Text size={'8'} ta="center" style={{ pointerEvents: 'none' }}>
-              {campaignProgressPercentage.toString()}%
-            </Text>
-          }
           sections={[{ value: Number(campaignProgressPercentage), color: 'green' }]}
         />
         <Text>

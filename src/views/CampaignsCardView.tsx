@@ -94,12 +94,10 @@ const CampaignsCardView: React.FC = () => {
     {
       header: '5. Actions',
       Cell: ({ cell }: { cell: MRT_Cell<BudgetAllocation> }) => {
-        const address = cell.row.original.receiverAddress;
         const budgetId = BigInt((params as any).id);
         const allocationId = cell.row.original.id;
         const state = cell.row.original.state;
 
-        if (address != ethereumAddress) return <></>;
         if (state == BigInt(1)) return <></>;
 
         return (
