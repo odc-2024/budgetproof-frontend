@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Grid, Group, Stack, Title } from '@mantine/core';
 import CampaignsCard from '@/components/campaigns/CampaignsCard.tsx';
 import DefaultLayout from '@/components/Layout/DefaultLayout.tsx';
-import { CampaignStatus } from '@/types';
+// import { CampaignStatus } from '@/types';
 import { Link } from 'react-router-dom';
 import { Campaign, contract } from '@/contract';
 
@@ -60,7 +60,7 @@ const CampaignsView: React.FC = () => {
             {campaigns.map((value, index) => (
               <Grid.Col key={index} span={{ base: 12, md: 6, lg: 4 }}>
                 <Link to={'/campaigns/' + value.id}>
-                  <CampaignsCard />
+                  <CampaignsCard campaign={value} />
                 </Link>
               </Grid.Col>
             ))}
