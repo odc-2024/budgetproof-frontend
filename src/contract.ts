@@ -34,7 +34,7 @@ class Contract {
   constructor() {
     this.browserProvider = new ethers.BrowserProvider((window as any).ethereum);
     this.contract = new ethers.Contract(
-      '0xf3811a9C616297e4F6F7B174aAD8f4481E2943af',
+      '0x3FE3A794cB1b64f24027c967622Dd7E9584064DE',
       CONTRACT_ABI,
       this.browserProvider,
     );

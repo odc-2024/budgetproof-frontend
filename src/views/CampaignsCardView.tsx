@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import DefaultLayout from '@/components/Layout/DefaultLayout.tsx';
-import { Group, Stack, Title, Button, Badge, Text } from '@mantine/core';
+import { Group, Stack, Title, Button, Badge, Text, Code } from '@mantine/core';
 import { BudgetAllocation, Campaign, contract } from '@/contract';
 import { Link, useParams } from 'react-router-dom';
 
@@ -10,7 +10,6 @@ import {
   MantineReactTable,
   useMantineReactTable,
 } from 'mantine-react-table';
-import { ethers } from 'ethers';
 
 const CampaignsCardView: React.FC = () => {
   const [campaign, setCampaign] = useState<Campaign | null>(null);
@@ -41,7 +40,7 @@ const CampaignsCardView: React.FC = () => {
 
   const columns: MRT_ColumnDef<BudgetAllocation>[] = [
     {
-      header: '0. Receiver',
+      header: '1. Receiver',
       Cell: ({ cell }: { cell: MRT_Cell<BudgetAllocation> }) => {
         const name = cell.row.original.receiverUsername;
         const address = cell.row.original.receiverAddress;
@@ -49,13 +48,13 @@ const CampaignsCardView: React.FC = () => {
         return (
           <div>
             <Text>{name}</Text>
-            <Text size="xs">{address}</Text>
+            <Code>{address}</Code>
           </div>
         );
       },
     },
     {
-      header: '1. Volunteer',
+      header: '2. Volunteer',
       Cell: ({ cell }: { cell: MRT_Cell<BudgetAllocation> }) => {
         const name = cell.row.original.volunteerUsername;
         const address = cell.row.original.volunteerAddress;
@@ -63,20 +62,20 @@ const CampaignsCardView: React.FC = () => {
         return (
           <div>
             <Text>{name}</Text>
-            <Text size="xs">{address}</Text>
+            <Code>{address}</Code>
           </div>
         );
       },
     },
     {
-      header: '2. Amount',
+      header: '3. Amount',
       Cell: ({ cell }: { cell: MRT_Cell<BudgetAllocation> }) => {
         const amount = cell.row.original.amount;
-        return <Badge color="grey">{amount.toString()}</Badge>;
+        return <Badge color="grey">{amount.toLocaleString()} {campaign?.unit}</Badge>;
       },
     },
     {
-      header: '3. State',
+      header: '4. State',
       Cell: ({ cell }: { cell: MRT_Cell<BudgetAllocation> }) => {
         const state = cell.row.original.state;
         if (state == BigInt(1)) {
@@ -89,12 +88,15 @@ const CampaignsCardView: React.FC = () => {
       },
     },
     {
-      header: '4. Actions',
+      header: '5. Actions',
       Cell: ({ cell }: { cell: MRT_Cell<BudgetAllocation> }) => {
         const address = cell.row.original.receiverAddress;
         const budgetId = BigInt(params.id);
         const allocationId = cell.row.original.id;
-        // if (address != ethereumAddress) return <></>;
+        const state = cell.row.original.state;
+
+        if (address != ethereumAddress) return <></>;
+        if (state == BigInt(1)) return <></>;
 
         return (
           <Button
@@ -102,7 +104,7 @@ const CampaignsCardView: React.FC = () => {
               await contract.confirmAllocation(budgetId, allocationId);
             }}
           >
-            Confirm {address} - {ethereumAddress}
+            Confirm
           </Button>
         );
       },
