@@ -5,7 +5,6 @@ import { NavLink } from 'react-router-dom';
 
 const collections = [
   { emoji: '📢', label: 'Campaigns', to: '/' },
-  { emoji: '👥', label: 'Users', to: '/users' },
   { emoji: '📖', label: 'How it works', to: '/about' },
 ];
 
