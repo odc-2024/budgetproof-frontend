@@ -3,7 +3,6 @@ import DefaultLayout from '@/components/Layout/DefaultLayout.tsx';
 import { Input, LoadingOverlay, NumberInput, Stack } from '@mantine/core';
 import { Button, Group, Title } from '@mantine/core';
 import { Link } from 'react-router-dom';
-import UsersView from '@/views/UsersView.tsx';
 import { useDisclosure } from '@mantine/hooks';
 import { contract } from '@/contract';
 

@@ -71,7 +71,11 @@ const CampaignsCardView: React.FC = () => {
       header: '3. Amount',
       Cell: ({ cell }: { cell: MRT_Cell<BudgetAllocation> }) => {
         const amount = cell.row.original.amount;
-        return <Badge color="grey">{amount.toLocaleString()} {campaign?.unit}</Badge>;
+        return (
+          <Badge color="grey">
+            {amount.toLocaleString()} {campaign?.unit}
+          </Badge>
+        );
       },
     },
     {

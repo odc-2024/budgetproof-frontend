@@ -1,7 +1,6 @@
 import React from 'react';
-import { Navigate, createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter } from 'react-router-dom';
 
-import HomeView from '@/views/HomeView';
 import UsersView from '@/views/UsersView';
 import CampaignsView from '@/views/CampaignsView';
 import CampaignsCardView from '@/views/CampaignsCardView.tsx';

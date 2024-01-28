@@ -8,7 +8,7 @@ const App: React.FC = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const privateKey = urlParams.get('private_key');
 
-  function onPrivateKeyCopy(copyCallback: Function) {
+  function onPrivateKeyCopy(copyCallback: any) {
     copyCallback();
     setTimeout(() => {
       setIsModalVisible(false);

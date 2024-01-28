@@ -5,8 +5,6 @@ import DefaultLayout from '@/components/Layout/DefaultLayout.tsx';
 // import { CampaignStatus } from '@/types';
 import { Link } from 'react-router-dom';
 import { Campaign, contract } from '@/contract';
-import { useTranslation } from 'react-i18next';
-import { CampaignStatus } from '@/types';
 
 /*
 const campaigns = [

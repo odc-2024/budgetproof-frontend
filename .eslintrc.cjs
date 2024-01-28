@@ -34,5 +34,7 @@ module.exports = {
     },
   },
   plugins: ['react', 'prettier'],
-  rules: {},
+  rules: {
+    '@typescript-eslint/no-explicit-any': 'off',
+  },
 };
