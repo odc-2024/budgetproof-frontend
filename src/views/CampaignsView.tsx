@@ -4,6 +4,7 @@ import CampaignsCard from '@/components/campaigns/CampaignsCard.tsx';
 import DefaultLayout from '@/components/Layout/DefaultLayout.tsx';
 import { CampaignStatus } from '@/types';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const campaigns = [
   { item: <CampaignsCard />, link: '/campaigns/view' },
@@ -12,12 +13,13 @@ const campaigns = [
 ];
 
 const CampaignsView: React.FC = () => {
+  const { t } = useTranslation();
   const [status, setStatus] = React.useState<CampaignStatus>(CampaignStatus.Current);
 
   const statuses = {
-    [CampaignStatus.Current]: 'Current',
-    [CampaignStatus.Upcoming]: 'Upcoming',
-    [CampaignStatus.Past]: 'Past',
+    [CampaignStatus.Current]: t('current'),
+    [CampaignStatus.Upcoming]: t('upcoming'),
+    [CampaignStatus.Past]: t('past'),
   };
 
   return (

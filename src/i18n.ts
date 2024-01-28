@@ -10,7 +10,23 @@ i18next
     resources: {
       en: {
         translation: {
-          logo: 'Logo',
+          current: 'Current',
+          upcoming: 'Upcoming',
+          past: 'Past',
+        },
+      },
+      ru: {
+        translation: {
+          current: 'Текущие',
+          upcoming: 'Будущие',
+          past: 'Прошлые',
+        },
+      },
+      uz: {
+        translation: {
+          current: 'Hozirgi',
+          upcoming: 'Kevatkan',
+          past: 'Otkan',
         },
       },
     },
