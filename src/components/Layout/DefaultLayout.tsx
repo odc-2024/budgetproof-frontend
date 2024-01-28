@@ -13,15 +13,15 @@ const DefaultLayout: React.FC<{
 
   const loadEthereumAddress = async () => {
     const [accounts, chainId] = await Promise.all([
-      window.ethereum!.request({ method: 'eth_requestAccounts' }),
-      window.ethereum!.request({ method: 'eth_chainId' }),
+      (window as any).ethereum!.request({ method: 'eth_requestAccounts' }),
+      (window as any).ethereum!.request({ method: 'eth_chainId' }),
     ]);
 
     if (accounts) setEthereumAddress(accounts[0]);
     setEthereumChainId(chainId as string);
   };
 
-  if (window.ethereum) loadEthereumAddress();
+  if ((window as any).ethereum) loadEthereumAddress();
 
   return (
     <AppShell
@@ -56,7 +56,9 @@ const DefaultLayout: React.FC<{
                 <code className="text-sm font-semibold">
                   0x{ethereumAddress?.substring(0, 12)}..
                 </code>
-                <code className="text-xs">Chain id: {parseInt(ethereumChainId, 16)}</code>
+                <code className="text-xs">
+                  Chain id: {parseInt(ethereumChainId as string, 16)}
+                </code>
               </div>
             </div>
           </div>

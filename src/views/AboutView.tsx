@@ -9,7 +9,7 @@ const AboutView: React.FC = () => {
       <div className="container mx-auto px-5">
         <Stack>
           <Title order={1}>How it works</Title>
-          <Image src={ArchImage} w={800}/>
+          <Image src={ArchImage} w={800} />
         </Stack>
       </div>
     </DefaultLayout>

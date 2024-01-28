@@ -88,7 +88,7 @@ class Contract {
   ): Promise<ContractTransactionReceipt> {
     const signer = await this.browserProvider.getSigner();
     return await (
-      await this.contract.connect(signer).createBudget(name, amount, unit)
+      await (this.contract.connect(signer) as any).createBudget(name, amount, unit)
     ).wait(); // TODO: fix type error
   }
 
@@ -98,7 +98,10 @@ class Contract {
   ): Promise<ContractTransactionReceipt> {
     const signer = await this.browserProvider.getSigner();
     return await (
-      await this.contract.connect(signer).confirmAllocation(campaignId, allocationId)
+      await (this.contract.connect(signer) as any).confirmAllocation(
+        campaignId,
+        allocationId,
+      )
     ).wait(); // TODO: fix type error
   }
 }

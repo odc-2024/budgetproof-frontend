@@ -20,20 +20,20 @@ const CampaignsCardView: React.FC = () => {
 
   const loadEthereumAddress = async () => {
     const [accounts] = await Promise.all([
-      window.ethereum!.request({ method: 'eth_requestAccounts' }),
+      (window as any).ethereum.request({ method: 'eth_requestAccounts' }),
     ]);
 
     if (accounts) setEthereumAddress(accounts[0]);
   };
 
-  if (window.ethereum) loadEthereumAddress();
+  if ((window as any).ethereum) loadEthereumAddress();
 
   React.useEffect(() => {
-    contract.getCampaign(params.id).then((campaign) => {
+    contract.getCampaign((params as any).id).then((campaign) => {
       setCampaign(campaign);
     });
 
-    contract.getAllocations(params.id).then((allocations) => {
+    contract.getAllocations((params as any).id).then((allocations) => {
       setAllocations(allocations);
     });
   }, []);
@@ -95,7 +95,7 @@ const CampaignsCardView: React.FC = () => {
       header: '5. Actions',
       Cell: ({ cell }: { cell: MRT_Cell<BudgetAllocation> }) => {
         const address = cell.row.original.receiverAddress;
-        const budgetId = BigInt(params.id);
+        const budgetId = BigInt((params as any).id);
         const allocationId = cell.row.original.id;
         const state = cell.row.original.state;
 
