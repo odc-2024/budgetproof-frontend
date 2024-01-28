@@ -1,16 +1,17 @@
 import { ContractTransactionReceipt, ethers } from "ethers";
 
 const CONTRACT_ABI = [
-  "function getBudgets() public view returns((uint256, string, uint256, string, uint256, uint256)[])",
+  "function getBudgets() public view returns((uint256, string, uint256, string, uint256, address)[])",
   "function createBudget(string memory name_, uint256 amount_, string memory unit_) public returns (uint256)"
 ];
 
 export interface Campaign {
-  id: number;
+  id: bigint;
   name: string;
-  amount: number;
+  amount: bigint;
   unit: string;
-  remainingAmount: number;
+  remainingAmount: bigint;
+  contractAddress: string;
 }
 
 class Contract {
@@ -19,21 +20,26 @@ class Contract {
 
   constructor() {
     this.browserProvider = new ethers.BrowserProvider((window as any).ethereum);
-    this.contract = new ethers.Contract("0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9", CONTRACT_ABI, this.browserProvider);
+    this.contract = new ethers.Contract("0xc3e53F4d16Ae77Db1c982e75a937B9f60FE63690", CONTRACT_ABI, this.browserProvider);
   }
 
-  public deserializeCampaign(budget: [number, string, number, string, number]): Campaign {
+  public deserializeCampaign(budget: [bigint, string, bigint, string, bigint, string]): Campaign {
     return {
       id: budget[0],
       name: budget[1],
       amount: budget[2],
       unit: budget[3],
       remainingAmount: budget[4],
+      contractAddress: budget[5]
     }
   }
 
   public async getCampaigns(): Promise<Campaign[]> {
     return (await this.contract["getBudgets"]()).map(this.deserializeCampaign);
+  }
+
+  public async getCampaign(campaignId: number): Promise<Campaign> {
+    return this.deserializeCampaign((await this.contract["getBudget"](campaignId)));
   }
 
   public async createCampaign(name: string, amount: number, unit: string): Promise<ContractTransactionReceipt> {

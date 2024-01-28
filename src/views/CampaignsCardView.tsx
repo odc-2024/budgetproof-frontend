@@ -1,8 +1,10 @@
 import React from 'react';
 import DefaultLayout from '@/components/Layout/DefaultLayout.tsx';
-import { Group, Stack, Text, Title, Button } from '@mantine/core';
+import { Group, Stack, /*Text,*/ Title, Button } from '@mantine/core';
+/*
 import CampaignsCard from '@/components/campaigns/CampaignsCard.tsx';
 import UsersView from '@/views/UsersView.tsx';
+*/
 import { Link } from 'react-router-dom';
 
 const CampaignsCardView: React.FC = () => {
@@ -18,6 +20,7 @@ const CampaignsCardView: React.FC = () => {
               </Button>
             </Link>
           </Group>
+          { /* 
           <CampaignsCard>
             <Stack gap={20}>
               <Text pt={20}>
@@ -31,6 +34,7 @@ const CampaignsCardView: React.FC = () => {
               <UsersView withLayout={false} />
             </Stack>
           </CampaignsCard>
+          */ }
         </Stack>
       </div>
     </DefaultLayout>
