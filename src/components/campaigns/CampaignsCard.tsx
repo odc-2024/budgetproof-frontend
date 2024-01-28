@@ -3,12 +3,14 @@ import { Card, Code, Group, RingProgress, Text } from '@mantine/core';
 import { Campaign } from '@/contract';
 
 const CampaignsCard: React.FC<{ campaign: Campaign }> = ({ campaign }) => {
-  const [campaignProgressPercentage] = useState(((campaign.amount - campaign.remainingAmount) / 100n) * 100n); // TODO: fix the calculation
+  const [campaignProgressPercentage] = useState(
+    ((campaign.amount - campaign.remainingAmount) / 100n) * 100n,
+  ); // TODO: fix the calculation
 
   return (
     <Card shadow="sm" padding="lg" radius="sm" withBorder>
       <Group justify="space-between" mb="xs">
-        <Text fw={600}>{ campaign.name }</Text>
+        <Text fw={600}>{campaign.name}</Text>
         <Code>{campaign.contractAddress.substring(0, 9)}..</Code>
       </Group>
 
@@ -17,7 +19,7 @@ const CampaignsCard: React.FC<{ campaign: Campaign }> = ({ campaign }) => {
         and activities on and around the fjords of Norway
       </Text>
 
-      <Group className='flex'>
+      <Group className="flex">
         <RingProgress
           size={40}
           thickness={4}
@@ -27,11 +29,12 @@ const CampaignsCard: React.FC<{ campaign: Campaign }> = ({ campaign }) => {
               {campaignProgressPercentage.toString()}%
             </Text>
           }
-          sections={[
-            { value: Number(campaignProgressPercentage), color: 'green' },
-          ]}
+          sections={[{ value: Number(campaignProgressPercentage), color: 'green' }]}
         />
-        <Text>{ (campaign.amount - campaign.remainingAmount).toLocaleString() } { campaign.unit } / { campaign.amount.toLocaleString() } { campaign.unit }</Text>
+        <Text>
+          {(campaign.amount - campaign.remainingAmount).toLocaleString()} {campaign.unit}{' '}
+          / {campaign.amount.toLocaleString()} {campaign.unit}
+        </Text>
       </Group>
     </Card>
   );

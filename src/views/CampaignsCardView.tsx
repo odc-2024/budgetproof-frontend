@@ -1,18 +1,71 @@
 import React, { useState } from 'react';
 import DefaultLayout from '@/components/Layout/DefaultLayout.tsx';
-import { Group, Stack, Title, Button, Table } from '@mantine/core';
-import { Campaign, contract } from '@/contract';
-/*
-import CampaignsCard from '@/components/campaigns/CampaignsCard.tsx';
-import UsersView from '@/views/UsersView.tsx';
-*/
+import { Group, Stack, Title, Button, Badge, Text } from '@mantine/core';
+import { BudgetAllocation, Campaign, contract } from '@/contract';
 import { Link, useParams } from 'react-router-dom';
+
+import {
+  MRT_Cell,
+  MRT_ColumnDef,
+  MantineReactTable,
+  useMantineReactTable,
+} from 'mantine-react-table';
+
+const columns: MRT_ColumnDef<BudgetAllocation>[] = [
+  {
+    header: '0. Receiver',
+    Cell: ({ cell }: { cell: MRT_Cell<BudgetAllocation> }) => {
+      const name = cell.row.original.receiverUsername;
+      const address = cell.row.original.receiverAddress;
+
+      return (
+        <div>
+          <Text>{name}</Text>
+          <Text size="xs">{address}</Text>
+        </div>
+      );
+    },
+  },
+  {
+    header: '1. Volunteer',
+    Cell: ({ cell }: { cell: MRT_Cell<BudgetAllocation> }) => {
+      const name = cell.row.original.volunteerUsername;
+      const address = cell.row.original.volunteerAddress;
+
+      return (
+        <div>
+          <Text>{name}</Text>
+          <Text size="xs">{address}</Text>
+        </div>
+      );
+    },
+  },
+  {
+    header: '2. Amount',
+    Cell: ({ cell }: { cell: MRT_Cell<BudgetAllocation> }) => {
+      const amount = cell.row.original.amount;
+      return <Badge color="grey">{amount.toString()}</Badge>;
+    },
+  },
+  {
+    header: '3. State',
+    Cell: ({ cell }: { cell: MRT_Cell<BudgetAllocation> }) => {
+      const state = cell.row.original.state;
+      if (state == BigInt(1)) {
+        return <Badge color="green">Confirmed</Badge>;
+      } else if (state == BigInt(0)) {
+        return <Badge color="red">Not confirmed</Badge>;
+      }
+
+      return <Badge color="grey">Unknown</Badge>;
+    },
+  },
+];
 
 const CampaignsCardView: React.FC = () => {
   const [campaign, setCampaign] = useState<Campaign | null>(null);
-  const [allocations, setAllocations] = useState<any | null>(null);
-  const params = useParams()
-  const allocationRows = [];
+  const [allocations, setAllocations] = useState<BudgetAllocation[]>([]);
+  const params = useParams();
 
   React.useEffect(() => {
     contract.getCampaign(params.id).then((campaign) => {
@@ -24,6 +77,19 @@ const CampaignsCardView: React.FC = () => {
     });
   }, []);
 
+  const table = useMantineReactTable<BudgetAllocation>({
+    state: {
+      density: 'xs',
+    },
+    columns,
+    data: allocations,
+    // enableRowSelection: true,
+    enableDensityToggle: false,
+    columnFilterDisplayMode: 'subheader',
+    paginationDisplayMode: 'pages',
+    positionToolbarAlertBanner: 'bottom',
+  });
+
   return (
     <DefaultLayout>
       <div className="container mx-auto px-5">
@@ -31,7 +97,10 @@ const CampaignsCardView: React.FC = () => {
           <Group justify="space-between">
             <div>
               <Title order={1}>{campaign?.name}</Title>
-              <Title size={20} fw={0} order={1}>{campaign?.remainingAmount.toLocaleString()} / {campaign?.amount.toLocaleString()} {campaign?.unit}</Title>
+              <Title size={20} fw={0} order={1}>
+                {campaign?.remainingAmount.toLocaleString()} /{' '}
+                {campaign?.amount.toLocaleString()} {campaign?.unit}
+              </Title>
             </div>
             <Link to="/campaigns">
               <Button px={40} variant="outline">
@@ -41,37 +110,8 @@ const CampaignsCardView: React.FC = () => {
           </Group>
 
           <div>
-
-            <Table>
-              <Table.Thead>
-                <Table.Tr>
-                  <Table.Th>ID</Table.Th>
-                  <Table.Th>Receiver</Table.Th>
-                  <Table.Th>Amount</Table.Th>
-                  <Table.Th>Sender</Table.Th>
-                </Table.Tr>
-              </Table.Thead>
-              <Table.Tbody>
-                { allocationRows }
-              </Table.Tbody>
-            </Table>
+            <MantineReactTable table={table} />
           </div>
-
-          { /* 
-          <CampaignsCard>
-            <Stack gap={20}>
-              <Text pt={20}>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                Lorem Ipsum has been the industry standard dummy text ever since the
-                1500s, when an unknown printer took a galley of type and scrambled it to
-                make a type specimen book. It has survived not only five centuries, but
-                also the leap into electronic typesetting, remaining essentially
-                unchanged.
-              </Text>
-              <UsersView withLayout={false} />
-            </Stack>
-          </CampaignsCard>
-          */ }
         </Stack>
       </div>
     </DefaultLayout>

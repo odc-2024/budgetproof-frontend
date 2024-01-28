@@ -1,11 +1,20 @@
-import { ContractTransactionReceipt, ethers } from "ethers";
+import { ContractTransactionReceipt, ethers } from 'ethers';
 
 const CONTRACT_ABI = [
-  "function getBudgets() public view returns((uint256, string, uint256, string, uint256, address)[])",
-  "function createBudget(string memory name_, uint256 amount_, string memory unit_) public returns (uint256)",
-  "function getBudget(uint256 budgetId_) public view returns((uint256, string, uint256, string, uint256, address))",
-  "function getAllocations(uint256 budgetId_) public view returns((uint256, string, address, uint256, string, address)[])",
+  'function getBudgets() public view returns((uint256, string, uint256, string, uint256, address)[])',
+  'function createBudget(string memory name_, uint256 amount_, string memory unit_) public returns (uint256)',
+  'function getBudget(uint256 budgetId_) public view returns((uint256, string, uint256, string, uint256, address))',
+  'function getAllocations(uint256 budgetId_) public view returns((uint256, string, address, uint256, string, address)[])',
 ];
+
+export interface BudgetAllocation {
+  state: bigint;
+  receiverUsername: string;
+  receiverAddress: string;
+  amount: bigint;
+  volunteerUsername: string;
+  volunteerAddress: string;
+}
 
 export interface Campaign {
   id: bigint;
@@ -22,49 +31,62 @@ class Contract {
 
   constructor() {
     this.browserProvider = new ethers.BrowserProvider((window as any).ethereum);
-    this.contract = new ethers.Contract("0xA4899D35897033b927acFCf422bc745916139776", CONTRACT_ABI, this.browserProvider);
+    this.contract = new ethers.Contract(
+      '0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9',
+      CONTRACT_ABI,
+      this.browserProvider,
+    );
   }
 
-  public deserializeCampaign(budget: [bigint, string, bigint, string, bigint, string]): Campaign {
+  public deserializeCampaign(
+    budget: [bigint, string, bigint, string, bigint, string],
+  ): Campaign {
     return {
       id: budget[0],
       name: budget[1],
       amount: budget[2],
       unit: budget[3],
       remainingAmount: budget[4],
-      contractAddress: budget[5]
-    }
+      contractAddress: budget[5],
+    };
   }
 
-  public deserializeAllocation(allocation: [bigint, string, bigint, string, string, string]): any {
-    console.log(allocation);
-    /*
+  public deserializeAllocation(
+    allocation: [bigint, string, string, bigint, string, string],
+  ): BudgetAllocation {
     return {
       state: allocation[0],
-      name: budget[1],
-      amount: budget[2],
-      unit: budget[3],
-      remainingAmount: budget[4],
-      contractAddress: budget[5]
-    }
-    */
+      receiverUsername: allocation[1],
+      receiverAddress: allocation[2],
+      amount: allocation[3],
+      volunteerUsername: allocation[4],
+      volunteerAddress: allocation[5],
+    };
   }
 
   public async getCampaigns(): Promise<Campaign[]> {
-    return (await this.contract["getBudgets"]()).map(this.deserializeCampaign);
+    return (await this.contract['getBudgets']()).map(this.deserializeCampaign);
   }
 
-  public async getAllocations(budgetId: number): Promise<Campaign[]> {
-    return (await this.contract["getAllocations"](budgetId)).map(this.deserializeAllocation);
+  public async getAllocations(budgetId: number): Promise<BudgetAllocation[]> {
+    return (await this.contract['getAllocations'](budgetId)).map(
+      this.deserializeAllocation,
+    );
   }
 
   public async getCampaign(campaignId: number): Promise<Campaign> {
-    return this.deserializeCampaign((await this.contract["getBudget"](campaignId)));
+    return this.deserializeCampaign(await this.contract['getBudget'](campaignId));
   }
 
-  public async createCampaign(name: string, amount: number, unit: string): Promise<ContractTransactionReceipt> {
+  public async createCampaign(
+    name: string,
+    amount: number,
+    unit: string,
+  ): Promise<ContractTransactionReceipt> {
     const signer = await this.browserProvider.getSigner();
-    return (await (await this.contract.connect(signer).createBudget(name, amount, unit)).wait()); // TODO: fix type error
+    return await (
+      await this.contract.connect(signer).createBudget(name, amount, unit)
+    ).wait(); // TODO: fix type error
   }
 }
 

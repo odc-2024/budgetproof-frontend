@@ -37,6 +37,6 @@ export const router = createBrowserRouter([
   },
   {
     path: '/enter',
-    element: <div></div>
-  }
+    element: <div></div>,
+  },
 ]);
